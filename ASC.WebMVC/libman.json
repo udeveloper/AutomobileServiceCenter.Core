@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "filesystem",
+      "library": "C:\\Angular\\Angular Build\\Servinte-Framework-UI-Calendar-Information\\dist\\servinte-framework-ui-calendar-information\\bundles",
+      "destination": "wwwroot/lib/bundles/"
+    },
+    {
+      "library": "angular.js@1.7.5",
+      "destination": "wwwroot/lib/angular.js/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "angular-ui-router@1.0.20",
+      "destination": "wwwroot/angular-ui-router/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "C:\\Angular\\Angular Build\\Servinte-Framework-UI-Calendar-Information\\dist\\servinte-framework-ui-calendar-information\\esm5",
+      "destination": "wwwroot/lib/esm5/"
+    }
+  ]
+}
