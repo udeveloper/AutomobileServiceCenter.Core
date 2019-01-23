@@ -1,0 +1,10 @@
+language csharp
+dist trusty
+sudo required
+mono none
+dotnet 1.0.3
+script
+- dotnet restore -s httpsdotnet.myget.orgFaspnetcore-devapiv3index.json -s
+httpsapi.nuget.orgv3index.json
+- dotnet test .ASC.TestsASC.Tests.csproj
+- dotnet build
