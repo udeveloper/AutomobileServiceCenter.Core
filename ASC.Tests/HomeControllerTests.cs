@@ -53,7 +53,7 @@ namespace ASC.Tests
         public void HomeController_Index_NoModel_Test()
         {
             var controller = new HomeController(optionsMock.Object);
-            //controller.ControllerContext.HttpContext = mockHttpContext.Object;
+            controller.ControllerContext.HttpContext = mockHttpContext.Object;
             Assert.Null((controller.Index() as ViewResult).ViewData.Model);
         }
         [Fact]
