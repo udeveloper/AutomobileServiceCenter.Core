@@ -56,7 +56,7 @@ namespace ASC.WebMVC
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                   "Server=(localdb)\\mssqllocaldb;Database=aspnet-ASC.WebIdentity;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                    Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>((options) =>
             {
@@ -84,8 +84,8 @@ namespace ASC.WebMVC
 
             services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "localhost";
-                options.InstanceName = "ASCInstance";
+                options.Configuration = Configuration["CacheSettings:CacheConnectionString"];
+                options.InstanceName =  Configuration["CacheSettings:CacheInstance"];
             });
 
             services.AddSession();
