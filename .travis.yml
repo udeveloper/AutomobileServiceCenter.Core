@@ -1,0 +1,14 @@
+language: csharp
+dist: trusty
+sudo: required
+mono: none
+dotnet: 2.1.403
+script:
+- dotnet test ./ASC.Tests/ASC.Tests.csproj
+- dotnet build
+notifications:
+email:
+recipients:
+- Abrahan.Olaya@carvajal.com
+on_success: always
+on_failure: always
