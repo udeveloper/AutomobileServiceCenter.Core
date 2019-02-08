@@ -19,6 +19,11 @@ namespace ASC.WebMVC
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                 .ConfigureAppConfiguration((hostingContext, config) =>
+                 {
+                     config.SetBasePath(Directory.GetCurrentDirectory());
+                     config.AddJsonFile($"appsetings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                 })
+              .UseStartup<Startup>();
     }
 }
