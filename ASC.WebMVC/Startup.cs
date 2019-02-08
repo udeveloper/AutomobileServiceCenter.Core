@@ -111,7 +111,7 @@ namespace ASC.WebMVC
             services.AddScoped<IServiceRequestOperations, ServiceRequestOperations>();
             services.AddScoped<IMasterDataOperations, MasterDataOperations>();
             services.AddScoped<ILogDataOperations, LogDataOperations>();
-            services.AddScoped<IUnitOfWork>(p => new UnitOfWork("UseDevelopmentStorage=true;"));
+            services.AddScoped<IUnitOfWork>(p => new UnitOfWork(Configuration["ConnectionStrings:DefaultConnectionStorage"]));
             // services.AddSingleton<IMasterDataCacheOperations, MasterDataCacheOperations>();
             services.AddSingleton<INavigationCacheOperations, NavigationCacheOperations>();
             services.AddCors();
