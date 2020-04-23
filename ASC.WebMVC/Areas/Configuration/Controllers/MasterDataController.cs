@@ -7,7 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
+//using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -120,24 +120,24 @@ namespace ASC.WebMVC.Areas.Configuration.Controllers
                 // Get MemoryStream from Excel file
                 await excelFile.CopyToAsync(memoryStream);
                 // Create a ExcelPackage object from MemoryStream
-                using (ExcelPackage package = new ExcelPackage(memoryStream))
-                {
-                    // Get the first Excel sheet from the Workbook
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
-                    int rowCount = worksheet.Dimension.Rows;
-                    // Iterate all the rows and create the list of MasterDataValue
-                    // Ignore first row as it is header
-                    for (int row = 2; row <= rowCount; row++)
-                    {
-                        var masterDataValue = new MasterDataValue();
-                        masterDataValue.RowKey = Guid.NewGuid().ToString();
-                        masterDataValue.PartitionKey = worksheet.Cells[row, 1].Value.ToString();
-                        masterDataValue.Name = worksheet.Cells[row, 2].Value.ToString();
-                        masterDataValue.IsActive = Boolean.Parse(worksheet.Cells[row, 3].
-                        Value.ToString());
-                        masterValueList.Add(masterDataValue);
-                    }
-                }
+                //using (ExcelPackage package = new ExcelPackage(memoryStream))
+                //{
+                //    // Get the first Excel sheet from the Workbook
+                //    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                //    int rowCount = worksheet.Dimension.Rows;
+                //    // Iterate all the rows and create the list of MasterDataValue
+                //    // Ignore first row as it is header
+                //    for (int row = 2; row <= rowCount; row++)
+                //    {
+                //        var masterDataValue = new MasterDataValue();
+                //        masterDataValue.RowKey = Guid.NewGuid().ToString();
+                //        masterDataValue.PartitionKey = worksheet.Cells[row, 1].Value.ToString();
+                //        masterDataValue.Name = worksheet.Cells[row, 2].Value.ToString();
+                //        masterDataValue.IsActive = Boolean.Parse(worksheet.Cells[row, 3].
+                //        Value.ToString());
+                //        masterValueList.Add(masterDataValue);
+                //    }
+                //}
             }
             return masterValueList;
         }
