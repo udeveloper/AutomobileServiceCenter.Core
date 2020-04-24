@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  dotnetsdkversion: '2.1.x'
+  dotnetsdkversion: '2.1.805'
 
 steps:
 - task: UseDotNet@2
