@@ -4,14 +4,68 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- '*'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
+  dotnetsdkversion: '2.1.x'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration) '
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK $(dotnetsdkversion)'
+  inputs:
+    version: $(dotnetsdkversion)')
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restaurar Dependencias Proyecto'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Compilar proyecto - $(buildConfiguration)'
+  inputs:
+    command: build
+    arguments: '--no-restore --configuration $(buildConfiguration) '
+    projects: '**/*.csproj'  
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install Report Generator'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'install --global dotnet-reportgenerator-globaltool'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests - $(buildConfiguration)'
+  inputs:
+    command: test
+    arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCovergare=true /p:CoverletOuputFormat=cobertura /p:CoverletOuput=$(Build.SourcesDirectory)/TestResults/Coverage/ '
+    publishTestResults: true
+    projects: '**/*Tests.csproj'
+
+- script: |
+    reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
+  displayName: 'Crear Reporte code coverage '
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publicando Reporte Code Coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Publish the project - $(buildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    zipAfterPublish: true
+  
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: Automobile Service Center'
+  condition: succeeded()
